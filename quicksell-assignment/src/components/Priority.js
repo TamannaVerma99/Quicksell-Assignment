@@ -1,115 +1,110 @@
 import React from 'react'
 import todo from '../assets/to do.png'
 import { useEffect, useState } from 'react';
-import Card from './Card.js'
 import '../styles/Status.css'
 import plusmore from '../assets/plusmore.png'
 import done from '../assets/Done.png'
 import Cancelled from '../assets/canceled.png'
 import backlogimg from '../assets/backlog.png'
 import inprogressimg from '../assets/in progress.png'
-import nopriorityimg from '../assets/priority.png'
-import urgentimg from '../assets/urgent.png'
-import highimg from '../assets/high.png'
-import mediumimg from '../assets/medium.png'
-import lowimg from '../assets/low.png'
-import usr1 from '../assets/usr1.png'
-import CardPriority from './CardPriority.js';
+import CardStatus from './CardStatus';
 
-
-
-const Priority = (props) => {
-    // let todono = 0;
-    const [todono, settodono] = useState();
-    let usersdata = [''];
-    const [tick, setTick] = useState([{ "id": "CAM" }]);
-    const [nopriority, setnopriority] = useState([]);
-    const [lowpriority, setlowpriority] = useState([]);
-    const [hightpriority, sethightpriority] = useState([]);
-    const [mediumpriority, setmediumpriority] = useState([]);
-    const [urgent, seturgent] = useState([]);
-    // const [backlog, setbacklog] = useState([]);
-
-    // const [count, setCount] = useState(0);
-    // let todonum = 0;
-    const [todonum, setTodonum] = useState(0);
-
-    // const [first, setfirst] = useState(second)
+const Status = (props) => {
+    const [tick, setTick] = useState([]);
+    const [inProgressno, setinProgressno] = useState([]);
+    const [doneno, setdoneno] = useState([]);
+    const [cancelled, setcancelled] = useState([]);
+    const [backlog, setbacklog] = useState([]);
+    const [Order, setOrder] = useState(localStorage.getItem('order'));
+    const [users, setusers] = useState([]);
+    let available=true;
+    const [todonum, setTodonum] = useState([]);
 
     useEffect(() => {
 
-        hello();
-        // count();
-
-
+        fetchData();
     }, []);
-    useEffect(() => {
-      count();
-    }, [tick])
-    
 
-    async function hello() {
+    useEffect(() => {
+        filterAndSortTickets();
+    }, [tick,Order]);
+
+    useEffect(() => {
+        setOrder(localStorage.getItem('order'));
+      
+    }, [localStorage.getItem('order')])
+    
+    async function fetchData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
 
             const result = await response.json();
 
-
-            setTick(result.tickets);
-
-            // console.log("tickets", tick);
-
+        setTick(result.tickets);
+        setusers(result.users);
         } catch (error) {
             console.error("Error:", error);
         }
-
-
     }
-    function count() {
-        let noprioritypre=[];
-        let lowprioritypre=[];
-        let mediumprioritypre=[];
-        let hightprioritypre=[];
-        let urgetnpre=[];
-
+    function filterAndSortTickets() {
+        let todoList = [];
+        let doneList = [];
+        let cancelledList = [];
+        let backlogList = [];
+        let inProgressList = [];
         tick.map((ticket) => {
-            // if (ticket.status === "Todo") {
-            //     settodono(todono + 1)
-            //     console.log("smd")
-            // }
-            if (ticket.priority === 0) noprioritypre.push(ticket);
-            if (ticket.priority === 1)  lowprioritypre.push(ticket);
-            if (ticket.priority === 2)  mediumprioritypre.push(ticket);
-            if (ticket.priority === 3)  hightprioritypre.push(ticket);
-            if (ticket.priority === 4)  urgetnpre.push(ticket);
 
-            // console.log("todo",todono);
-
+            if (ticket.status === "Todo") todoList.push(ticket);
+            if (ticket.status === "Done") doneList.push(ticket);
+            if (ticket.status === "cancelled") cancelledList.push(ticket);
+            if (ticket.status === "Backlog") backlogList.push(ticket);
+            if (ticket.status === "In progress") inProgressList.push(ticket);
+   
         }
-        
+
         )
+      
+        if(Order==="Title"){
+            todoList.sort((a, b) => a.title.localeCompare(b.title));
+        inProgressList.sort((a, b) => a.title.localeCompare(b.title));
+        backlogList.sort((a, b) => a.title.localeCompare(b.title));
+        doneList.sort((a, b) => a.title.localeCompare(b.title));
+        cancelledList.sort((a, b) => a.title.localeCompare(b.title));
         
-        noprioritypre.sort((a, b) => a.title.localeCompare(b.title));
-        lowprioritypre.sort((a, b) => a.title.localeCompare(b.title));
-        mediumprioritypre.sort((a, b) => a.title.localeCompare(b.title));
-        hightprioritypre.sort((a, b) => a.title.localeCompare(b.title));
-        urgetnpre.sort((a, b) => a.title.localeCompare(b.title));
-       
-        setnopriority(noprioritypre);
-        setlowpriority(lowprioritypre);
-        setmediumpriority(mediumprioritypre);
-        sethightpriority(hightprioritypre);
-        seturgent(urgetnpre);
+        setTodonum(todoList);
+        setbacklog(backlogList);
+        setcancelled(cancelledList);
+        setdoneno(doneList);
+        setinProgressno(inProgressList);
+        }else  {
+            
+            todoList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+        inProgressList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+        backlogList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+        doneList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+        cancelledList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+        
+        setTodonum(todoList);
+        setbacklog(backlogList);
+        setcancelled(cancelledList);
+        setdoneno(doneList);
+        setinProgressno(inProgressList);
+        }
+        setTodonum(todoList);
+        setbacklog(backlogList);
+        setcancelled(cancelledList);
+        setdoneno(doneList);
+        setinProgressno(inProgressList);
 
     }
-    
-return (
+
+    return (
         <div className='Boards'>
             <div className='Board'>
                 <div className='boardHeading'>
-                    <img src={nopriorityimg} className='headingImg' alt=''></img>
-                    <p className='cText' style={{width: "190px"}} >No-Priority</p>
-                    <p className='cText'>{nopriority.length}</p>
+                    <img src={backlogimg} className='headingImg' alt=''></img>
+                    <p className='cText'>Backlog</p>
+                    <p className='cText'>{backlog.length}</p>
                     <div className='boardHeading' id='pluske'>
 
                         <img src={plusmore} className='headingImg' alt=''></img>
@@ -119,44 +114,21 @@ return (
                 </div>
 
                 <div className='Cards'>
-
                     {
-                        nopriority.length > 0 &&
-                        nopriority.map((ticket) => {
+                        backlog.length > 0 &&
+                        backlog.map((ticket) => {
+                            users.map((item) => {
+                               
+                                    if(
+                                        ticket &&
+                                         item.id === ticket.userId){
+                                            available=item.available;
+                                    }                                                    
+                               
+                            })
+               
                             return (
-                                (ticket.priority === 0 && <CardPriority  ticket={ticket}></CardPriority>)
-                            )
-                        })     
-                    }
-                </div>
-
-            </div>
-            <div className='Board'>
-                <div className='boardHeading'>
-                    <img src={urgentimg} className='headingImg' alt=''></img>
-                    <p className='cText'>Urgent</p>
-                    <p className='cText'>{urgent.length}</p>
-                    <div className='boardHeading' id='pluske'>
-
-                        <img src={plusmore} className='headingImg' alt=''></img>
-                    </div>
-
-
-                </div>
-
-                <div className='Cards'>
-
-                    {
-                        urgent.length > 0 &&
-                        urgent.map((ticket) => {
-                            // { ticket.status === "Todo" && (settodono(todono + 1)) }
-                            // if(ticket.status === "Todo"){
-                            //     settodono(todono+1)
-                            // }
-                            // console.log(todono)
-
-                            return (
-                                (ticket.priority === 4 && <CardPriority ticket={ticket}></CardPriority>)
+                                (ticket.status === "Backlog" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
                         })
                     }
@@ -165,50 +137,29 @@ return (
             </div>
             <div className='Board'>
                 <div className='boardHeading'>
-                    <img src={highimg} className='headingImg' alt=''></img>
-                    <p className='cText'>High</p>
-                    <p className='cText'>{hightpriority.length}</p>
+                    <img src={todo} className='headingImg' alt=''></img>
+                    <p className='cText'>Todo</p>
+                    <p className='cText'>{todonum.length}</p>
                     <div className='boardHeading' id='pluske'>
 
                         <img src={plusmore} className='headingImg' alt=''></img>
                     </div>
-
-
                 </div>
-
                 <div className='Cards'>
-
                     {
-                        hightpriority.length > 0 &&
-                        hightpriority.map((ticket) => {
-                            return (
-                                (ticket.priority === 3 && <CardPriority ticket={ticket}></CardPriority>)
-                            )
+                        todonum.length > 0 &&
+                        todonum.map((ticket) => {
+                            users.map((item) => {
+                               
+                                if(
+                                    ticket &&
+                                     item.id === ticket.userId){
+                                        available=item.available;
+                                }                                                    
+                           
                         })
-                    }
-                </div>
-
-            </div>
-            <div className='Board'> 
-                <div className='boardHeading'>
-                    <img src={mediumimg} className='headingImg' alt=''></img>
-                    <p className='cText'>Medium</p>
-                    <p className='cText'>{mediumpriority.length}</p>
-                    <div className='boardHeading' id='pluske'>
-
-                        <img src={plusmore} className='headingImg' alt=''></img>
-                    </div>
-
-
-                </div>
-
-                <div className='Cards'>
-
-                    {
-                        mediumpriority.length > 0 &&
-                        mediumpriority.map((ticket) => {
                             return (
-                                (ticket.priority === 2 && <CardPriority ticket={ticket}></CardPriority>)
+                                (ticket.status === "Todo" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
                         })
                     }
@@ -217,9 +168,43 @@ return (
             </div>
             <div className='Board'>
                 <div className='boardHeading'>
-                    <img src={lowimg} className='headingImg' alt=''></img>
-                    <p className='cText'>Low</p>
-                    <p className='cText'>{lowpriority.length}</p>
+                    <img src={inprogressimg} className='headingImg' alt=''></img>
+                    <p className='cText' style={{ width: "190px" }}>In-Progress</p>
+                    <p className='cText'>{inProgressno.length}</p>
+                    <div className='boardHeading' id='pluske'>
+
+                        <img src={plusmore} className='headingImg' alt=''></img>
+                    </div>
+
+                </div>
+
+                <div className='Cards'>
+
+                    {
+                        inProgressno.length > 0 &&
+                        inProgressno.map((ticket) => {
+                            users.map((item) => {
+                               
+                                if(
+                                    ticket &&
+                                     item.id === ticket.userId){
+                                        available=item.available;
+                                }                                                    
+                           
+                        })
+                            return (
+                                (ticket.status === "In progress" && <CardStatus ticket={ticket} available={available}></CardStatus>)
+                            )
+                        })
+                    }
+                </div>
+
+            </div>
+            <div className='Board'>
+                <div className='boardHeading'>
+                    <img src={done} className='headingImg' alt=''></img>
+                    <p className='cText'>Done</p>
+                    <p className='cText'>{doneno.length}</p>
                     <div className='boardHeading' id='pluske'>
 
                         <img src={plusmore} className='headingImg' alt=''></img>
@@ -231,10 +216,56 @@ return (
                 <div className='Cards'>
 
                     {
-                        lowpriority.length > 0 &&
-                        lowpriority.map((ticket) => {
+                        doneno.length > 0 &&
+                        doneno.map((ticket) => {
+                            users.map((item) => {
+                               
+                                if(
+                                    ticket &&
+                                     item.id === ticket.userId){
+                                        available=item.available;
+                                     
+                                }                                                    
+                           
+                        })
                             return (
-                                (ticket.priority === 1 && <CardPriority ticket={ticket} ></CardPriority>)
+                                (ticket.status === "Done" && <CardStatus ticket={ticket} available={available}></CardStatus>)
+                            )
+                        })
+                    }
+                </div>
+
+            </div>
+            <div className='Board'>
+                <div className='boardHeading'>
+                    <img src={Cancelled} className='headingImg' alt=''></img>
+                    <p className='cText'>Canceled</p>
+                    <p className='cText'>{cancelled.length}</p>
+                    <div className='boardHeading' id='pluske'>
+
+                        <img src={plusmore} className='headingImg' alt=''></img>
+                    </div>
+
+
+                </div>
+
+                <div className='Cards'>
+
+                    {
+                        cancelled.length > 0 &&
+                        cancelled.map((ticket) => {
+                            users.map((item) => {
+                               
+                                if(
+                                    ticket &&
+                                     item.id === ticket.userId){
+                                        available=item.available;
+                                    
+                                }                                                    
+                           
+                        })
+                            return (
+                                (ticket.status === "Cancelled" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
                         })
                     }
@@ -245,4 +276,4 @@ return (
     )
 }
 
-export default Priority
+export default Status

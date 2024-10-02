@@ -19,31 +19,20 @@ import usr2 from '../assets/usr-2.png'
 import usr3 from '../assets/usr-3.png'
 import usr4 from '../assets/usr-4.png'
 import usr5 from '../assets/usr-5.png'
-import usr6 from '../assets/usr-6.png'
-import usr7 from '../assets/usr-7.png'
 
-// import img from 
 
 const CardStatus = (props) => {
-    // let available = true;
     const [available, setavailable] = useState(false);
-    // console.log({props});
     let imgt=`imgr${props.ticket.priority.toString()}`;
-    // console.log(imgt);
     let dotuser;
-    
     const [users, setusers] = useState([]);
     const [tick, setTick] = useState([]);
 
     useEffect(() => {
-
-        hello();
-        // count();
-
-
+        fetchUserData();
     }, []);
 
-    async function hello() {
+    async function fetchUserData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
 
@@ -78,8 +67,6 @@ const CardStatus = (props) => {
         "usr-3": usr3,
         "usr-4": usr4,
         "usr-5": usr5,
-        "usr-6": usr6,
-        "usr-7": usr7,
       };
       useEffect(() => {
         users.map((user) => {
@@ -111,7 +98,6 @@ const CardStatus = (props) => {
                 <div className='cardBoxin'>
                     <text className='cardId'>{props.ticket.id}</text>
                     <text className='cardTitle'>
-                        {/* <img  src={statusImgSrc}></img> */}
                         {props.ticket.title}</text>
                 </div >
                 <div style={{ height: "38px" }}>
@@ -123,7 +109,6 @@ const CardStatus = (props) => {
 
             <div className='lowerBox'>
                 <div className='priorityBox'><img className='priorityImg' src={imgSrc} alt='logo' /></div>
-
                 <div className='tagBox'>
                     <img className='tagImg' src={tag} alt='logo' />
                     <tag className='tagText'>{props.ticket.tag}</tag>

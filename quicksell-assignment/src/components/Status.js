@@ -9,6 +9,7 @@ import backlogimg from '../assets/backlog.png'
 import inprogressimg from '../assets/in progress.png'
 import CardStatus from './CardStatus';
 
+
 const Status = (props) => {
     const [pref, setpref] = useState(localStorage.getItem('grouping'))
     const [todono, settodono] = useState([]);
@@ -23,8 +24,8 @@ const Status = (props) => {
     const [users, setusers] = useState([]);
     let available=true;
     const [todonum, setTodonum] = useState([]);
-    useEffect(() => {
-        hello();
+ useEffect(() => {
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -36,9 +37,7 @@ const Status = (props) => {
       
     }, [localStorage.getItem('order')])
     
-
-
-    async function hello() {
+    async function fetchData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
 
@@ -57,15 +56,18 @@ const Status = (props) => {
         let backlogpre = [];
         let inprogresspre = [];
         tick.map((ticket) => {
-
             if (ticket.status === "Todo") todopre.push(ticket);
             if (ticket.status === "Done") donepre.push(ticket);
             if (ticket.status === "cancelled") cancelledpre.push(ticket);
             if (ticket.status === "Backlog") backlogpre.push(ticket);
             if (ticket.status === "In progress") inprogresspre.push(ticket);
+
+    
             
         }
+
         )
+      
         if(Order==="Title"){
             todopre.sort((a, b) => a.title.localeCompare(b.title));
         inprogresspre.sort((a, b) => a.title.localeCompare(b.title));
@@ -80,7 +82,7 @@ const Status = (props) => {
         setinProgressno(inprogresspre);
         }else  {
             
-        todopre.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+            todopre.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
         inprogresspre.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
         backlogpre.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
         donepre.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
@@ -92,12 +94,15 @@ const Status = (props) => {
         setdoneno(donepre);
         setinProgressno(inprogresspre);
         }
+        
         setTodonum(todopre);
         setbacklog(backlogpre);
         setcancelled(cancelledpre);
         setdoneno(donepre);
         setinProgressno(inprogresspre);
+       
     }
+
     return (
         <div className='Boards'>
             <div className='Board'>
@@ -114,6 +119,9 @@ const Status = (props) => {
                 </div>
 
                 <div className='Cards'>
+                          
+                               
+
                     {
                         backlog.length > 0 &&
                         backlog.map((ticket) => {
@@ -126,6 +134,8 @@ const Status = (props) => {
                                     }                                                    
                                
                             })
+                        
+
                             return (
                                 (ticket.status === "Backlog" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
@@ -143,8 +153,12 @@ const Status = (props) => {
 
                         <img src={plusmore} className='headingImg' alt=''></img>
                     </div>
+
+
                 </div>
+
                 <div className='Cards'>
+
                     {
                         todonum.length > 0 &&
                         todonum.map((ticket) => {
@@ -167,6 +181,7 @@ const Status = (props) => {
             </div>
             <div className='Board'>
                 <div className='boardHeading'>
+                
                     <img src={inprogressimg} className='headingImg' alt=''></img>
                     <p className='cText' style={{ width: "190px" }}>In-Progress</p>
                     <p className='cText'>{inProgressno.length}</p>

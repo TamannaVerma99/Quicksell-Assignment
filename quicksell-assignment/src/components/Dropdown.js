@@ -13,9 +13,7 @@ function Dropdown(props) {
     localStorage.setItem('grouping', `${event.target.value}`);
     
   };
-  function onClickHandler() {
-    console.log("hello");
-  };
+ 
   const handleSelectChangeorder = (event) => {
     setSelectedValueorder(event.target.value);
     console.log(`${event.target.value}`);

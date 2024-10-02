@@ -2,7 +2,7 @@ import './styles/App.css';
 import Navbar from './components/Navbar.js'
 import Status from './components/Status.js'
 import Priority from './components/Priority.js';
-import Byuser from './components/Byuser.js';
+import Byuser from './components/GroupByUser.js';
 import { useState } from 'react';
 
 function App() {

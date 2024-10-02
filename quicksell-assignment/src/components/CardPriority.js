@@ -1,52 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Card.css';
-import logo from '../assets/logo.svg';
-
-import priority from '../assets/priority.svg';
 import tag from '../assets/tag.png'
-import img0 from '../assets/priority.png'
-import img4 from '../assets/urgent.png'
-import img3 from '../assets/high.png'
-import img2 from '../assets/medium.png'
-import img1 from '../assets/low.png'
-import done from '../assets/Done.png'
-import Cancelled from '../assets/canceled.png'
-import backlogimg from '../assets/backlog.png'
-import inprogressimg from '../assets/in progress.png'
-import todo from '../assets/to do.png'
+import priorityImg from '../assets/priority.png'
+import urgentImg from '../assets/urgent.png'
+import highImg from '../assets/high.png'
+import mediumImg from '../assets/medium.png'
+import lowImg from '../assets/low.png'
+import doneImg from '../assets/Done.png'
+import cancelledImg from '../assets/canceled.png'
+import backlogImg from '../assets/backlog.png'
+import inprogressImg from '../assets/in progress.png'
+import todoImg from '../assets/to do.png'
 import usr1 from '../assets/usr-1.png'
 import usr2 from '../assets/usr-2.png'
 import usr3 from '../assets/usr-3.png'
 import usr4 from '../assets/usr-4.png'
 import usr5 from '../assets/usr-5.png'
-import usr6 from '../assets/usr-6.png'
-import usr7 from '../assets/usr-7.png'
 
-// import img from 
+
 
 const CardPriority = (props) => {
-    // let available = true;
     const [available, setavailable] = useState(false);
-    // console.log({props});
     let imgt=`imgr${props.ticket.priority.toString()}`;
-    // console.log(imgt);
     let dotuser;
     
     const [users, setusers] = useState([]);
     const [tick, setTick] = useState([]);
 
     useEffect(() => {
-
-        hello();
-        // count();
-
-
+        fetchUserData();
     }, []);
 
-    async function hello() {
+    async function fetchUserData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
-
             const result = await response.json();
 
         setTick(result.tickets);
@@ -54,22 +41,20 @@ const CardPriority = (props) => {
         } catch (error) {
             console.error("Error:", error);
         }
-
-
     }
     const priorityImageMap = {
-        0: img0,
-        1: img1,
-        2: img2,
-        3: img3,
-        4: img4,
+        0: priorityImg,
+        1: lowImg,
+        2: mediumImg,
+        3: highImg,
+        4: urgentImg,
       };
     const statusImageMap={
-        "Todo": todo,
-        "In progress":inprogressimg,
-        "Backlog":backlogimg,
-        "Done":done,
-        "Cancelled":Cancelled,
+        "todoImg": todoImg,
+        "In progress":inprogressImg,
+        "Backlog":backlogImg,
+        "doneImg":doneImg,
+        "cancelledImg":cancelledImg,
 
     }
     const usrImageMap = {
@@ -78,8 +63,6 @@ const CardPriority = (props) => {
         "usr-3": usr3,
         "usr-4": usr4,
         "usr-5": usr5,
-        "usr-6": usr6,
-        "usr-7": usr7,
       };
       useEffect(() => {
         users.map((user) => {
@@ -94,17 +77,14 @@ const CardPriority = (props) => {
       
       
       const usrImage=usrImageMap[props.ticket.userId]||usr1;
-      const imgSrc = priorityImageMap[props.ticket.priority] || img0;
-      const statusImgSrc=statusImageMap[props.ticket.status]||todo;
+      const imgSrc = priorityImageMap[props.ticket.priority] || priorityImg;
+      const statusImgSrc=statusImageMap[props.ticket.status]||todoImg;
     if(available===true){
         dotuser=<div className='availableUser' />;
 
     }else{
         dotuser=<div className='notavailableUser' />;
     }
-   
-    
-
     return (
         <div className='cardBox'>
             <div className='cardBoxrow'>
@@ -120,8 +100,6 @@ const CardPriority = (props) => {
 
 
             <div className='lowerBox'>
-                {/* <div className='priorityBox'><img className='priorityImg' src={imgSrc} alt='logo' /></div> */}
-
                 <div className='tagBox'>
                     <img className='tagImg' src={tag} alt='logo' />
                     <tag className='tagText'>{props.ticket.tag}</tag>
