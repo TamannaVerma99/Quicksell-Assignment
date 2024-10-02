@@ -13,32 +13,27 @@ This project is an interactive Kanban board application built using React JS, de
 
 /kanban-board-app 
 ├── /public 
-│ ├── index.html # Main HTML file 
-│ └── favicon.ico # Application favicon 
+│   ├── index.html          # Main HTML file that serves as the entry point for the React application
+│   └── favicon.ico         # Application favicon for the web app
 ├── /src 
-│ ├── /assets 
-│ │ ├── plusmore.png # Image for the "add more" button 
-│ │ ├── canceled.png # Image for cancelled tickets 
-│ │ ├── Done.png # Image representing done tickets 
-│ │ ├── backlog.png # Image for backlog tickets 
-│ │ └── in progress.png # Image for in-progress tickets 
-│ ├── /components 
-│ │ ├── Board.js # Component representing a board section 
-│ │ ├── Card.js # Component for displaying an individual ticket card 
-│ │ ├── CardPriority.js # Component to handle priority display of cards 
-│ │ ├── CardStatus.js # Component for displaying the status of a ticket 
-│ │ ├── CardUser.js # Component to show the user assigned to a ticket 
-│ │ ├── Dropdown.js # Dropdown component for grouping options 
-│ │ ├── GroupByUser.js # Component for grouping tickets by user 
-│ │ ├── Navbar.js # Navigation bar component 
-│ │ ├── Priority.js # Component for handling priority-related actions 
-│ │ └── Status.js # Component for displaying ticket statuses 
-│ ├── /styles 
-│ │ ├── App.css # Main CSS file for app styling 
-│ │ ├── Card.css # Styles for individual ticket cards 
-│ │ ├── Dropdown.css # Styles for dropdown components 
-│ │ ├── index.css # Global styles for the app 
-│ │ └── Status.css # Styles specific to the Status component 
-│ ├── App.js # Main application component 
-│ ├── index.js # Entry point of the React application 
-└── package.json # Project metadata and dependencies
+│   ├── /assets             # Directory containing all image assets used throughout the project
+│   ├── /components         # Directory containing all React components used in the application
+│   │   ├── Board.js        # Component representing the overall Kanban board layout, integrating different views (Status, GroupByUser)
+│   │   ├── Card.js         # Base component for displaying individual ticket cards; used by CardStatus and CardUser
+│   │   ├── CardPriority.js  # Component for managing and displaying cards based on priority criteria (if applicable)
+│   │   ├── CardStatus.js    # Component for displaying individual tickets grouped by their status (e.g., To-Do, In Progress)
+│   │   ├── CardUser.js      # Component for displaying individual tickets grouped by the assigned user
+│   │   ├── Dropdown.js      # Dropdown component for selecting grouping and ordering options for tickets
+│   │   ├── GroupByUser.js   # Component responsible for displaying tickets grouped by user assignments
+│   │   ├── Navbar.js        # Navigation bar component for app-wide navigation and actions
+│   │   ├── Priority.js      # Component for managing and displaying tickets based on priority levels
+│   │   └── Status.js        # Component for rendering tickets based on their current status
+│   ├── /styles              # Directory containing all CSS files for styling the application
+│   │   ├── App.css          # Main CSS file for global styling of the app
+│   │   ├── Card.css         # Styles specifically for individual ticket cards
+│   │   ├── Dropdown.css      # Styles for the dropdown component
+│   │   ├── index.css        # Global styles applied to the entire application
+│   │   └── Status.css       # Styles specific to the Status component for rendering status sections
+│   ├── App.js               # Main application component that sets up routing and layout for the app
+│   ├── index.js             # Entry point of the React application, rendering the App component
+└── package.json             # Project metadata and dependencies, listing libraries and scripts for the project
