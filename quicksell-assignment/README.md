@@ -4,11 +4,10 @@ This project is an interactive Kanban board application built using React JS, de
 
 ## Tech Stack
 
-- **React**: Frontend library for building user interfaces.
-- **JavaScript (ES6)**: Scripting language used for interactive web applications.
-- **CSS**: For styling the application without any CSS libraries.
-- **HTML**: Markup language used for structuring the web pages.
-
+- **React**: Used for building the user interface.
+- **JavaScript (ES6)**: Employed for creating interactive web applications.
+- **CSS**: Utilized for styling the application without relying on CSS libraries.
+- **HTML**: Markup language for structuring the web pages.
 
 
 ## File Structure
@@ -41,3 +40,12 @@ This project is an interactive Kanban board application built using React JS, de
 │   ├── index.js             # Entry point of the React application, rendering the App component
 └── package.json             # Project metadata and dependencies, listing libraries and scripts for the project
 ```
+
+## Getting Started
+
+To get started with the project, follow these simple steps:
+
+1. Clone this repository to your local machine.
+2. Install dependencies using `npm install` or `yarn install`.
+3. Start the development server using `npm run dev` or `yarn dev`.
+4. Explore the project by navigating to the provided URLs in your browser.
