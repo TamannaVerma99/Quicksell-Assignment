@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Card.css';
-import logo from '../assets/logo.svg';
-
-import priority from '../assets/priority.svg';
 import tag from '../assets/tag.png'
 import img0 from '../assets/priority.png'
 import img4 from '../assets/urgent.png'
@@ -20,18 +17,18 @@ import usr3 from '../assets/usr-3.png'
 import usr4 from '../assets/usr-4.png'
 import usr5 from '../assets/usr-5.png'
 
-
 const CardStatus = (props) => {
     const [available, setavailable] = useState(false);
-    let imgt=`imgr${props.ticket.priority.toString()}`;
     let dotuser;
     const [users, setusers] = useState([]);
     const [tick, setTick] = useState([]);
 
+// Fetch user data on component mount
     useEffect(() => {
         fetchUserData();
     }, []);
 
+// Fetch user and ticket data from the API
     async function fetchUserData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
@@ -43,9 +40,9 @@ const CardStatus = (props) => {
         } catch (error) {
             console.error("Error:", error);
         }
-
-
     }
+
+// Maps for priority and status images
     const priorityImageMap = {
         0: img0,
         1: img1,
@@ -68,6 +65,8 @@ const CardStatus = (props) => {
         "usr-4": usr4,
         "usr-5": usr5,
       };
+
+    // Update availability based on selected user
       useEffect(() => {
         users.map((user) => {
                                
@@ -79,13 +78,13 @@ const CardStatus = (props) => {
             }  })   
       }, [users])
       
-      
+    // Determine images for user, priority, and status 
       const usrImage=usrImageMap[props.ticket.userId]||usr1;
       const imgSrc = priorityImageMap[props.ticket.priority] || img0;
-      const statusImgSrc=statusImageMap[props.ticket.status]||todo;
+    
+    // Conditional rendering of user availability 
     if(available===true){
         dotuser=<div className='availableUser' />;
-
     }else{
         dotuser=<div className='notavailableUser' />;
     }

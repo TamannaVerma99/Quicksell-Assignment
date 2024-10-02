@@ -3,10 +3,13 @@ import '../styles/Status.css'
 import '../styles/Dropdown.css'
 import '../styles/Dropdown.css'
 import { useState } from 'react';
+
 function Dropdown(props) {
+  // Initialize state with values from localStorage or fallback to defaults
   const [selectedValue, setSelectedValue] = useState(localStorage.getItem('grouping'));
   const [selectedValueorder, setSelectedValueorder] = useState(localStorage.getItem('order'));
 
+  // Update grouping state and localStorage on change
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
     props.setGroupingValue(`${event.target.value}`);
@@ -14,6 +17,7 @@ function Dropdown(props) {
     
   };
  
+  // Update ordering state and localStorage on change
   const handleSelectChangeorder = (event) => {
     setSelectedValueorder(event.target.value);
     console.log(`${event.target.value}`);

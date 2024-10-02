@@ -20,17 +20,17 @@ import usr5 from '../assets/usr-5.png'
 
 
 const CardPriority = (props) => {
+    // Track user availability
     const [available, setavailable] = useState(false);
-    let imgt=`imgr${props.ticket.priority.toString()}`;
     let dotuser;
-    
+    // State to hold user data 
     const [users, setusers] = useState([]);
-    const [tick, setTick] = useState([]);
 
     useEffect(() => {
         fetchUserData();
     }, []);
-
+   
+    // Fetching user and ticket data from the API
     async function fetchUserData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
@@ -42,6 +42,8 @@ const CardPriority = (props) => {
             console.error("Error:", error);
         }
     }
+
+    // Maps for priority and status images
     const priorityImageMap = {
         0: priorityImg,
         1: lowImg,
@@ -49,6 +51,7 @@ const CardPriority = (props) => {
         3: highImg,
         4: urgentImg,
       };
+
     const statusImageMap={
         "todoImg": todoImg,
         "In progress":inprogressImg,
@@ -64,9 +67,10 @@ const CardPriority = (props) => {
         "usr-4": usr4,
         "usr-5": usr5,
       };
+
+      // Update availability based on selected user
       useEffect(() => {
-        users.map((user) => {
-                               
+        users.map((user) => {                        
             if(
                 props.ticket &&
                  user.id === props.ticket.userId){
@@ -75,10 +79,12 @@ const CardPriority = (props) => {
             }  })   
       }, [users])
       
-      
+      // Determine images for user, priority, and status
       const usrImage=usrImageMap[props.ticket.userId]||usr1;
       const imgSrc = priorityImageMap[props.ticket.priority] || priorityImg;
       const statusImgSrc=statusImageMap[props.ticket.status]||todoImg;
+
+    // Conditional rendering of user availability
     if(available===true){
         dotuser=<div className='availableUser' />;
 

@@ -5,44 +5,43 @@ import '../styles/Status.css'
 import plusmore from '../assets/plusmore.png'
 import nopriorityimg from '../assets/nopriority.png'
 const  Board=()=> {
-    const [todono, settodono] = useState();
-    const [tick, setTick] = useState([{ "id": "CAM" }]);
-    const [countTicketStatusesInProgress, setcountTicketStatusesInProgress] = useState(0);
-    const [countTicketStatusesDone, setcountTicketStatusesDone] = useState(0);
-    const [countTicketStatusesCancelled, setcountTicketStatusesCancelled] = useState(0);
+    const [todoticketsets, settodoticketsets] = useState();
+    const [tickets, settickets] = useState([{ "id": "CAM" }]);
+    const [countticketsetStatusesInProgress, setcountticketsetStatusesInProgress] = useState(0);
+    const [countticketsetStatusesDone, setcountticketsetStatusesDone] = useState(0);
+    const [countticketsetStatusesCancelled, setcountticketsetStatusesCancelled] = useState(0);
     const [backlog, setbacklog] = useState(0);
-   
 
+    // Fetching ticketsets and count statuses on component mount
     useEffect(() => {
-
-        fetchTickets();
-        countTicketStatuses();
-
-
+        fetchticketsets();
+        countticketsetStatuses();
     }, []);
-   // Fetching tickets from the API
-    async function fetchTickets() {
+
+   // Fetching ticketsets from the API
+    async function fetchticketsets() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
             const result = await response.json();
-            setTick(result.tickets);
-            console.log("tickets", tick);
+            settickets(result.ticketsets);
+            console.log("ticketsets", tickets);
         } catch (error) {
             console.error("Error:", error);
         }
     }
-    // Counting the statuses of the tickets
-    function countTicketStatuses() {
-        tick.map((ticket) => {
-            if (ticket.status === "Todo") {
-                settodono(todono + 1)
+
+    // Counting the statuses of the ticketsets
+    function countticketsetStatuses() {
+        tickets.map((ticketset) => {
+            if (ticketset.status === "Todo") {
+                settodoticketsets(todoticketsets + 1)
                 console.log("smd")
             }
-            if (ticket.status === "In Progress") setcountTicketStatusesInProgress(countTicketStatusesInProgress + 1)
-            if (ticket.status === "Done") setcountTicketStatusesDone(countTicketStatusesDone + 1);
-            if (ticket.status === "countTicketStatusesCancelled") setcountTicketStatusesCancelled(countTicketStatusesCancelled + 1);
-            if (ticket.status === "backlog") setbacklog(backlog + 1);
-            console.log("todono");
+            if (ticketset.status === "In Progress") setcountticketsetStatusesInProgress(countticketsetStatusesInProgress + 1)
+            if (ticketset.status === "Done") setcountticketsetStatusesDone(countticketsetStatusesDone + 1);
+            if (ticketset.status === "countticketsetStatusesCancelled") setcountticketsetStatusesCancelled(countticketsetStatusesCancelled + 1);
+            if (ticketset.status === "backlog") setbacklog(backlog + 1);
+            console.log("todoticketsets");
         })
 
 
@@ -59,10 +58,10 @@ const  Board=()=> {
                 </div>
                 <div className='Cards'>
                     {
-                        tick.length > 0 &&
-                        tick.map((ticket) => {
+                        tickets.length > 0 &&
+                        tickets.map((ticketset) => {
                             return (
-                                (ticket.priority === 0 && <Card  ticket={ticket}></Card>)
+                                (ticketset.priority === 0 && <Card  ticketset={ticketset}></Card>)
                             )
                         })     
                     }

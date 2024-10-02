@@ -6,20 +6,24 @@ import '../styles/Dropdown.css'
 import dropdownImg from '../assets/dropdown.png'
 
 function Navbar( props) {
-  const [isDropdownOpen, setisDropdownOpen] = useState(false);
-  const dropdownButtonRef = useRef(null);
 
+  const [isDropdownOpen, setisDropdownOpen] = useState(false);  // State to manage dropdown visibility
+  const dropdownButtonRef = useRef(null);// Ref to track dropdown button
+
+  // Toggle dropdown visibility
     function onClickHandler(){
       console.log("hello");
       setisDropdownOpen(!isDropdownOpen);
     };
 
+    // Close dropdown if clicked outside
     const closeDropdown = (event) => {
       if (isDropdownOpen && !dropdownButtonRef.current.contains(event.target)) {
         setisDropdownOpen(false);
       }
     };
   
+     // Effect to handle outside clicks
     useEffect(() => {
       document.addEventListener('mousedown', closeDropdown);
       return () => {

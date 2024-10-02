@@ -17,31 +17,31 @@ const Status = (props) => {
     const [backlog, setbacklog] = useState([]);
     const [Order, setOrder] = useState(localStorage.getItem('order'));
     const [users, setusers] = useState([]);
-    let available=true;
+    let available = true;
     const [todonum, setTodonum] = useState([]);
 
+    // Fetching data from the API
     useEffect(() => {
-
         fetchData();
     }, []);
 
+    // Filtering and sorting tickets based on their status
     useEffect(() => {
         filterAndSortTickets();
-    }, [tick,Order]);
+    }, [tick, Order]);
 
     useEffect(() => {
         setOrder(localStorage.getItem('order'));
-      
+
     }, [localStorage.getItem('order')])
-    
+
     async function fetchData() {
         try {
             const response = await fetch("https://api.quicksell.co/v1/internal/frontend-assignment");
-
             const result = await response.json();
 
-        setTick(result.tickets);
-        setusers(result.users);
+            setTick(result.tickets);
+            setusers(result.users);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -59,36 +59,37 @@ const Status = (props) => {
             if (ticket.status === "cancelled") cancelledList.push(ticket);
             if (ticket.status === "Backlog") backlogList.push(ticket);
             if (ticket.status === "In progress") inProgressList.push(ticket);
-   
+
         }
 
         )
-      
-        if(Order==="Title"){
+
+        // Sort based on the selected order (Title or Priority)
+        if (Order === "Title") {
             todoList.sort((a, b) => a.title.localeCompare(b.title));
-        inProgressList.sort((a, b) => a.title.localeCompare(b.title));
-        backlogList.sort((a, b) => a.title.localeCompare(b.title));
-        doneList.sort((a, b) => a.title.localeCompare(b.title));
-        cancelledList.sort((a, b) => a.title.localeCompare(b.title));
-        
-        setTodonum(todoList);
-        setbacklog(backlogList);
-        setcancelled(cancelledList);
-        setdoneno(doneList);
-        setinProgressno(inProgressList);
-        }else  {
-            
+            inProgressList.sort((a, b) => a.title.localeCompare(b.title));
+            backlogList.sort((a, b) => a.title.localeCompare(b.title));
+            doneList.sort((a, b) => a.title.localeCompare(b.title));
+            cancelledList.sort((a, b) => a.title.localeCompare(b.title));
+
+            setTodonum(todoList);
+            setbacklog(backlogList);
+            setcancelled(cancelledList);
+            setdoneno(doneList);
+            setinProgressno(inProgressList);
+        }
+        else {
             todoList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
-        inProgressList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
-        backlogList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
-        doneList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
-        cancelledList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
-        
-        setTodonum(todoList);
-        setbacklog(backlogList);
-        setcancelled(cancelledList);
-        setdoneno(doneList);
-        setinProgressno(inProgressList);
+            inProgressList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+            backlogList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+            doneList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+            cancelledList.sort((b, a) => parseInt(a.priority) - parseInt(b.priority));
+
+            setTodonum(todoList);
+            setbacklog(backlogList);
+            setcancelled(cancelledList);
+            setdoneno(doneList);
+            setinProgressno(inProgressList);
         }
         setTodonum(todoList);
         setbacklog(backlogList);
@@ -97,7 +98,7 @@ const Status = (props) => {
         setinProgressno(inProgressList);
 
     }
-
+    // Rendering each status column with tickets
     return (
         <div className='Boards'>
             <div className='Board'>
@@ -109,8 +110,6 @@ const Status = (props) => {
 
                         <img src={plusmore} className='headingImg' alt=''></img>
                     </div>
-
-
                 </div>
 
                 <div className='Cards'>
@@ -118,15 +117,15 @@ const Status = (props) => {
                         backlog.length > 0 &&
                         backlog.map((ticket) => {
                             users.map((item) => {
-                               
-                                    if(
-                                        ticket &&
-                                         item.id === ticket.userId){
-                                            available=item.available;
-                                    }                                                    
-                               
+
+                                if (
+                                    ticket &&
+                                    item.id === ticket.userId) {
+                                    available = item.available;
+                                }
+
                             })
-               
+
                             return (
                                 (ticket.status === "Backlog" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
@@ -150,14 +149,14 @@ const Status = (props) => {
                         todonum.length > 0 &&
                         todonum.map((ticket) => {
                             users.map((item) => {
-                               
-                                if(
+
+                                if (
                                     ticket &&
-                                     item.id === ticket.userId){
-                                        available=item.available;
-                                }                                                    
-                           
-                        })
+                                    item.id === ticket.userId) {
+                                    available = item.available;
+                                }
+
+                            })
                             return (
                                 (ticket.status === "Todo" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
@@ -179,19 +178,17 @@ const Status = (props) => {
                 </div>
 
                 <div className='Cards'>
-
                     {
                         inProgressno.length > 0 &&
                         inProgressno.map((ticket) => {
                             users.map((item) => {
-                               
-                                if(
+                                if (
                                     ticket &&
-                                     item.id === ticket.userId){
-                                        available=item.available;
-                                }                                                    
-                           
-                        })
+                                    item.id === ticket.userId) {
+                                    available = item.available;
+                                }
+
+                            })
                             return (
                                 (ticket.status === "In progress" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
@@ -219,15 +216,14 @@ const Status = (props) => {
                         doneno.length > 0 &&
                         doneno.map((ticket) => {
                             users.map((item) => {
-                               
-                                if(
+                                if (
                                     ticket &&
-                                     item.id === ticket.userId){
-                                        available=item.available;
-                                     
-                                }                                                    
-                           
-                        })
+                                    item.id === ticket.userId) {
+                                    available = item.available;
+
+                                }
+
+                            })
                             return (
                                 (ticket.status === "Done" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )
@@ -255,15 +251,15 @@ const Status = (props) => {
                         cancelled.length > 0 &&
                         cancelled.map((ticket) => {
                             users.map((item) => {
-                               
-                                if(
+
+                                if (
                                     ticket &&
-                                     item.id === ticket.userId){
-                                        available=item.available;
-                                    
-                                }                                                    
-                           
-                        })
+                                    item.id === ticket.userId) {
+                                    available = item.available;
+
+                                }
+
+                            })
                             return (
                                 (ticket.status === "Cancelled" && <CardStatus ticket={ticket} available={available}></CardStatus>)
                             )

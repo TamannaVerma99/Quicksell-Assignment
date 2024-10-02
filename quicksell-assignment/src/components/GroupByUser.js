@@ -11,10 +11,11 @@ import usr4 from '../assets/usr-4.png';
 import usr5 from '../assets/usr-5.png';
 
 const ByUser = ({ order }) => {
-  const [tickets, setTickets] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [userTickets, setUserTickets] = useState([]);
+  const [tickets, setTickets] = useState([]);// State to hold fetched tickets
+  const [users, setUsers] = useState([]);// State to hold fetched users
+  const [userTickets, setUserTickets] = useState([]);// State to hold grouped tickets by user
   
+  // Map for user images based on user ID
   const usrImageMap = {
     "usr-1": usr1,
     "usr-2": usr2,
