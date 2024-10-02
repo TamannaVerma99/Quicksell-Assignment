@@ -1,6 +1,6 @@
 # Kanban Board Application
 
-This project is an interactive Kanban board application built using React JS, designed to interact with the provided API from [Quicksell](https://api.quicksell.co/v1/internal/frontend-assignment).
+This project is an interactive Kanban board application built using React JS, designed to interact with the provided API.
 
 ## Tech Stack
 
