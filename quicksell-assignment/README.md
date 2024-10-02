@@ -14,6 +14,7 @@ This project is an interactive Kanban board application built using React JS, de
 ## File Structure
 
 /kanban-board-app 
+```
 ├── /public 
 │   ├── index.html          # Main HTML file that serves as the entry point for the React application
 │   └── favicon.ico         # Application favicon for the web app
@@ -39,3 +40,4 @@ This project is an interactive Kanban board application built using React JS, de
 │   ├── App.js               # Main application component that sets up routing and layout for the app
 │   ├── index.js             # Entry point of the React application, rendering the App component
 └── package.json             # Project metadata and dependencies, listing libraries and scripts for the project
+```
